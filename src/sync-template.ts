@@ -16,10 +16,11 @@ export const syncTemplate = async ({
 }: SyncTemplateOptions): Promise<void> => {
   await exec('git', ['checkout', '-b', branchName])
   await exec('git', ['remote', 'add', 'template', targetRepository])
-  await exec('git', ['fetch', 'template'])
+  await exec('git', ['fetch', '--no-tags', 'template'])
   await exec('git', [
     'diff',
     '--output=update.patch',
+    '--full-index',
     branchName,
     `template/${targetBranch}`
   ])
