@@ -170,7 +170,7 @@ const exec_1 = __nccwpck_require__(1514);
 const glob = __importStar(__nccwpck_require__(8090));
 const syncTemplate = ({ patterns, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, exec_1.exec)('git', ['checkout', '-b', branchName]);
-    yield (0, exec_1.exec)('git', ['remote', '-add', 'template', targetRepository]);
+    yield (0, exec_1.exec)('git', ['remote', 'add', 'template', targetRepository]);
     yield (0, exec_1.exec)('git', ['fetch', 'template']);
     yield (0, exec_1.exec)('git', [
         'diff',
