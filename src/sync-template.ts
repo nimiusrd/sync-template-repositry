@@ -15,7 +15,7 @@ export const syncTemplate = async ({
   targetBranch
 }: SyncTemplateOptions): Promise<void> => {
   await exec('git', ['checkout', '-b', branchName])
-  await exec('git', ['remote', '-add', 'template', targetRepository])
+  await exec('git', ['remote', 'add', 'template', targetRepository])
   await exec('git', ['fetch', 'template'])
   await exec('git', [
     'diff',
