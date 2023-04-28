@@ -171,10 +171,11 @@ const glob = __importStar(__nccwpck_require__(8090));
 const syncTemplate = ({ patterns, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, exec_1.exec)('git', ['checkout', '-b', branchName]);
     yield (0, exec_1.exec)('git', ['remote', 'add', 'template', targetRepository]);
-    yield (0, exec_1.exec)('git', ['fetch', 'template']);
+    yield (0, exec_1.exec)('git', ['fetch', '--no-tags', 'template']);
     yield (0, exec_1.exec)('git', [
         'diff',
         '--output=update.patch',
+        '--full-index',
         branchName,
         `template/${targetBranch}`
     ]);
