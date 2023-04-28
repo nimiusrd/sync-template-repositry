@@ -1,16 +1,25 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {syncTemplate} from './syncTemplate'
+import { createPullRequest } from './createPullRequest'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const targetRepository: string = core.getInput('target_repository')
+    const targetBranch: string = core.getInput('target_branch') ?? 'main'
+    const branchName: string = core.getInput('branch_name') ?? 'sync-template-repository'
+    const patterns: string[] = core.getInput('patterns').split(',') ?? ['**/*']
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    await syncTemplate(
+      {
+        patterns,
+        branchName,
+        targetRepository,
+        targetBranch
+      }
+    )
+    await createPullRequest(
+      branchName
+    )
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
