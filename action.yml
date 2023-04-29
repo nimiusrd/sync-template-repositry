@@ -1,11 +1,28 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Sync template repository'
+description: 'Sync template repository'
 inputs:
-  milliseconds: # change this
+  repo_token:
+    description: "Token to use for PR creation."
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  target_repository:
+    description: "Repository to apply changes."
+    required: true
+  target_branch:
+    description: "Branch to apply changes."
+    default: "main"
+    required: false
+  base_branch:
+    description: "Branch to use as base for PR creation."
+    default: "main"
+    required: false
+  pr_branch_name:
+    description: "Branch name to use for PR creation."
+    default: "sync-template-repository"
+    required: false
+  patterns:
+    description: "Patterns to sync."
+    default: "**/*"
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

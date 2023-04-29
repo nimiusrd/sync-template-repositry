@@ -6,6 +6,10 @@ on: # rebuild any PRs and main branch changes
       - main
       - 'releases/*'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
@@ -21,4 +25,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          milliseconds: 1000
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          target_repository: 'https://github.com/nimiusrd/sync-template-repository.git'
+          target_branch: 'test'
+          branch_name: 'sync-template-repository'
+          patterns: 'src/**/*'
