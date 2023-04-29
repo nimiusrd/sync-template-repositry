@@ -8,7 +8,7 @@ export const createPullRequest = async (branch: string): Promise<void> => {
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     head: branch,
-    base: github.context.ref,
+    base: 'main',
     title: `Sync template`,
     body: ``
   })
