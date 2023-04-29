@@ -16,8 +16,8 @@ inputs:
     default: "sync-template-repository"
     required: true
   patterns:
-    default: ""
-    required: true
+    default: "**/*"
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
