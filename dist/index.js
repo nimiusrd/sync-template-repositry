@@ -41,15 +41,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createPullRequest = void 0;
 const github = __importStar(__nccwpck_require__(5438));
-const core = __importStar(__nccwpck_require__(2186));
-const createPullRequest = (branch) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = core.getInput('repo_token');
+const createPullRequest = ({ token, branchName, baseBranch }) => __awaiter(void 0, void 0, void 0, function* () {
     const octokit = github.getOctokit(token);
     yield octokit.rest.pulls.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        head: branch,
-        base: 'main',
+        head: branchName,
+        base: baseBranch,
         title: `Sync template`,
         body: ``
     });
@@ -101,20 +99,22 @@ const core = __importStar(__nccwpck_require__(2186));
 const sync_template_1 = __nccwpck_require__(7312);
 const create_pull_request_1 = __nccwpck_require__(3780);
 function run() {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const token = core.getInput('repo_token');
             const targetRepository = core.getInput('target_repository');
             const targetBranch = (_a = core.getInput('target_branch')) !== null && _a !== void 0 ? _a : 'main';
             const branchName = (_b = core.getInput('branch_name')) !== null && _b !== void 0 ? _b : 'sync-template-repository';
-            const patterns = (_c = core.getInput('patterns').split(',')) !== null && _c !== void 0 ? _c : ['**/*'];
+            const baseBranch = (_c = core.getInput('base_branch')) !== null && _c !== void 0 ? _c : 'main';
+            const patterns = (_d = core.getInput('patterns').split(',')) !== null && _d !== void 0 ? _d : ['**/*'];
             yield (0, sync_template_1.syncTemplate)({
                 patterns,
                 branchName,
                 targetRepository,
                 targetBranch
             });
-            yield (0, create_pull_request_1.createPullRequest)(branchName);
+            yield (0, create_pull_request_1.createPullRequest)({ token, branchName, baseBranch });
         }
         catch (error) {
             if (error instanceof Error)

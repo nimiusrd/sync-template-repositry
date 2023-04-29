@@ -11,11 +11,16 @@ inputs:
     description: "Branch to apply changes."
     default: "main"
     required: false
-  branch_name:
+  base_branch:
+    description: "Branch to use as base for PR creation."
+    default: "main"
+    required: false
+  pr_branch_name:
     description: "Branch name to use for PR creation."
     default: "sync-template-repository"
-    required: true
+    required: false
   patterns:
+    description: "Patterns to sync."
     default: "**/*"
     required: false
 runs:

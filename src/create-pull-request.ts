@@ -1,14 +1,22 @@
 import * as github from '@actions/github'
-import * as core from '@actions/core'
 
-export const createPullRequest = async (branch: string): Promise<void> => {
-  const token = core.getInput('repo_token')
+interface CreatePullRequestOptions {
+  token: string
+  branchName: string
+  baseBranch: string
+}
+
+export const createPullRequest = async ({
+  token,
+  branchName,
+  baseBranch
+}: CreatePullRequestOptions): Promise<void> => {
   const octokit = github.getOctokit(token)
   await octokit.rest.pulls.create({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    head: branch,
-    base: 'main',
+    head: branchName,
+    base: baseBranch,
     title: `Sync template`,
     body: ``
   })
