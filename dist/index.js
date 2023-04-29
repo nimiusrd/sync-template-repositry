@@ -43,8 +43,8 @@ exports.createPullRequest = void 0;
 const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
 const createPullRequest = (branch) => __awaiter(void 0, void 0, void 0, function* () {
-    const myToken = core.getInput('myToken');
-    const octokit = github.getOctokit(myToken);
+    const token = core.getInput('repo_token');
+    const octokit = github.getOctokit(token);
     yield octokit.rest.pulls.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,

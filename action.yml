@@ -1,6 +1,9 @@
 name: 'Sync template repository'
 description: 'Sync template repository'
 inputs:
+  repo_token:
+    description: "Token to use for PR creation."
+    required: true
   target_repository:
     description: "Repository to apply changes."
     required: true
