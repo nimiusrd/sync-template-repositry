@@ -1,4 +1,5 @@
 import {exec} from '@actions/exec'
+import * as glob from '@actions/glob'
 
 interface SyncTemplateOptions {
   patterns: string[]
@@ -27,7 +28,11 @@ export const syncTemplate = async ({
   await exec('rm', ['update.patch'])
   await exec('git', ['config', 'user.name', 'github-actions'])
   await exec('git', ['config', 'user.email', 'github-actions@github.com'])
-  await exec('git', ['add', ...patterns.map(pattern => `:(glob)${pattern}`)])
+  const globber = await glob.create(patterns.join('\n'), {
+    matchDirectories: false
+  })
+  const files = await globber.glob()
+  await exec('git', ['add', ...files])
   await exec('git', [
     'commit',
     '-m',
