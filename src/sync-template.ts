@@ -27,7 +27,7 @@ export const syncTemplate = async ({
   await exec('rm', ['update.patch'])
   await exec('git', ['config', 'user.name', 'github-actions'])
   await exec('git', ['config', 'user.email', 'github-actions@github.com'])
-  await exec('git', ['add', ...patterns])
+  await exec('git', ['add', ...patterns.map(pattern => `:(glob)${pattern}`)])
   await exec('git', [
     'commit',
     '-m',
