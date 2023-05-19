@@ -14,6 +14,7 @@ async function run(): Promise<void> {
 
     await syncTemplate({
       patterns,
+      baseBranch,
       branchName,
       targetRepository,
       targetBranch

@@ -2,6 +2,7 @@ import {exec} from '@actions/exec'
 
 interface SyncTemplateOptions {
   patterns: string[]
+  baseBranch: string
   branchName: string
   targetRepository: string
   targetBranch: string
@@ -9,10 +10,12 @@ interface SyncTemplateOptions {
 
 export const syncTemplate = async ({
   patterns,
+  baseBranch,
   branchName,
   targetRepository,
   targetBranch
 }: SyncTemplateOptions): Promise<void> => {
+  await exec('git', ['checkout', baseBranch])
   await exec('git', ['checkout', '-b', branchName])
   await exec('git', ['remote', 'add', 'template', targetRepository])
   await exec('git', ['fetch', '--no-tags', 'template'])
