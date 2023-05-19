@@ -41,14 +41,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createPullRequest = void 0;
 const github = __importStar(__nccwpck_require__(5438));
-const createPullRequest = ({ token, branchName, baseBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+const createPullRequest = ({ token, targetRepository, branchName, baseBranch }) => __awaiter(void 0, void 0, void 0, function* () {
     const octokit = github.getOctokit(token);
     yield octokit.rest.pulls.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         head: branchName,
         base: baseBranch,
-        title: `Sync template`,
+        title: `Sync code with ${targetRepository}`,
         body: ``
     });
 });
@@ -110,11 +110,12 @@ function run() {
             const patterns = (_d = core.getInput('patterns').split(',')) !== null && _d !== void 0 ? _d : ['**/*'];
             yield (0, sync_template_1.syncTemplate)({
                 patterns,
+                baseBranch,
                 branchName,
                 targetRepository,
                 targetBranch
             });
-            yield (0, create_pull_request_1.createPullRequest)({ token, branchName, baseBranch });
+            yield (0, create_pull_request_1.createPullRequest)({ token, branchName, baseBranch, targetRepository });
         }
         catch (error) {
             if (error instanceof Error)
@@ -144,9 +145,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.syncTemplate = void 0;
 const exec_1 = __nccwpck_require__(1514);
-const syncTemplate = ({ patterns, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+const syncTemplate = ({ patterns, baseBranch, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, exec_1.exec)('git', ['fetch', '--all']);
+    yield (0, exec_1.exec)('git', [
+        'checkout',
+        '-t',
+        '-b',
+        baseBranch,
+        `origin/${baseBranch}`
+    ]);
     yield (0, exec_1.exec)('git', ['checkout', '-b', branchName]);
-    yield (0, exec_1.exec)('git', ['remote', 'add', 'template', targetRepository]);
+    yield (0, exec_1.exec)('git', [
+        'remote',
+        'add',
+        'template',
+        `https://github.com/${targetRepository}.git`
+    ]);
     yield (0, exec_1.exec)('git', ['fetch', '--no-tags', 'template']);
     yield (0, exec_1.exec)('git', [
         'diff',
@@ -163,9 +177,9 @@ const syncTemplate = ({ patterns, branchName, targetRepository, targetBranch }) 
     yield (0, exec_1.exec)('git', [
         'commit',
         '-m',
-        `Sync ${branchName} with ${targetRepository}/${targetBranch}`
+        `Sync code with https://github.com/${targetRepository}/tree/${targetBranch}`
     ]);
-    yield (0, exec_1.exec)('git', ['push', '--set-upstream', 'origin', branchName]);
+    yield (0, exec_1.exec)('git', ['push', '-f', '--set-upstream', 'origin', branchName]);
     yield (0, exec_1.exec)('git', ['checkout', '.']);
 });
 exports.syncTemplate = syncTemplate;

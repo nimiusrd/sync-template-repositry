@@ -2,6 +2,7 @@ import {exec} from '@actions/exec'
 
 interface SyncTemplateOptions {
   patterns: string[]
+  baseBranch: string
   branchName: string
   targetRepository: string
   targetBranch: string
@@ -9,12 +10,26 @@ interface SyncTemplateOptions {
 
 export const syncTemplate = async ({
   patterns,
+  baseBranch,
   branchName,
   targetRepository,
   targetBranch
 }: SyncTemplateOptions): Promise<void> => {
+  await exec('git', ['fetch', '--all'])
+  await exec('git', [
+    'checkout',
+    '-t',
+    '-b',
+    baseBranch,
+    `origin/${baseBranch}`
+  ])
   await exec('git', ['checkout', '-b', branchName])
-  await exec('git', ['remote', 'add', 'template', targetRepository])
+  await exec('git', [
+    'remote',
+    'add',
+    'template',
+    `https://github.com/${targetRepository}.git`
+  ])
   await exec('git', ['fetch', '--no-tags', 'template'])
   await exec('git', [
     'diff',
@@ -31,8 +46,8 @@ export const syncTemplate = async ({
   await exec('git', [
     'commit',
     '-m',
-    `Sync ${branchName} with ${targetRepository}/${targetBranch}`
+    `Sync code with https://github.com/${targetRepository}/tree/${targetBranch}`
   ])
-  await exec('git', ['push', '--set-upstream', 'origin', branchName])
+  await exec('git', ['push', '-f', '--set-upstream', 'origin', branchName])
   await exec('git', ['checkout', '.'])
 }
