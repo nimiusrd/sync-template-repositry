@@ -41,15 +41,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createPullRequest = void 0;
 const github = __importStar(__nccwpck_require__(5438));
-const createPullRequest = ({ token, targetRepository, branchName, baseBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+const createPullRequest = ({ token, targetRepository, branchName, baseBranch, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
     const octokit = github.getOctokit(token);
+    const response = yield octokit.rest.pulls.list({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        head: branchName,
+        base: baseBranch
+    });
+    if (response.data.length > 0) {
+        return;
+    }
     yield octokit.rest.pulls.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         head: branchName,
         base: baseBranch,
         title: `Sync code with ${targetRepository}`,
-        body: ``
+        body: `Sync code with [${targetRepository}](https://github.com/${targetRepository}/tree/${targetBranch})`
     });
 });
 exports.createPullRequest = createPullRequest;
@@ -115,7 +124,13 @@ function run() {
                 targetRepository,
                 targetBranch
             });
-            yield (0, create_pull_request_1.createPullRequest)({ token, branchName, baseBranch, targetRepository });
+            yield (0, create_pull_request_1.createPullRequest)({
+                token,
+                branchName,
+                baseBranch,
+                targetRepository,
+                targetBranch
+            });
         }
         catch (error) {
             if (error instanceof Error)
