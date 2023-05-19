@@ -159,7 +159,7 @@ const syncTemplate = ({ patterns, branchName, targetRepository, targetBranch }) 
     yield (0, exec_1.exec)('rm', ['update.patch']);
     yield (0, exec_1.exec)('git', ['config', 'user.name', 'github-actions']);
     yield (0, exec_1.exec)('git', ['config', 'user.email', 'github-actions@github.com']);
-    yield (0, exec_1.exec)('git', ['add', ...patterns]);
+    yield (0, exec_1.exec)('git', ['add', ...patterns.map(pattern => `:(glob)${pattern}`)]);
     yield (0, exec_1.exec)('git', [
         'commit',
         '-m',
