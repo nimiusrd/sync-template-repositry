@@ -27,6 +27,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           target_repository: 'https://github.com/nimiusrd/sync-template-repository.git'
-          target_branch: 'test'
+          target_branch: 'test/target'
+          base_branch: 'test/base'
           branch_name: 'sync-template-repository'
-          patterns: 'src/**/*'
+          patterns: '*'
