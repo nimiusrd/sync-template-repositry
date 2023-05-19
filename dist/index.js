@@ -110,6 +110,7 @@ function run() {
             const patterns = (_d = core.getInput('patterns').split(',')) !== null && _d !== void 0 ? _d : ['**/*'];
             yield (0, sync_template_1.syncTemplate)({
                 patterns,
+                baseBranch,
                 branchName,
                 targetRepository,
                 targetBranch
@@ -144,7 +145,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.syncTemplate = void 0;
 const exec_1 = __nccwpck_require__(1514);
-const syncTemplate = ({ patterns, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+const syncTemplate = ({ patterns, baseBranch, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, exec_1.exec)('git', ['checkout', baseBranch]);
     yield (0, exec_1.exec)('git', ['checkout', '-b', branchName]);
     yield (0, exec_1.exec)('git', ['remote', 'add', 'template', targetRepository]);
     yield (0, exec_1.exec)('git', ['fetch', '--no-tags', 'template']);
