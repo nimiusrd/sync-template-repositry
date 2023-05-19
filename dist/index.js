@@ -47,7 +47,7 @@ const createPullRequest = ({ token, targetRepository, branchName, baseBranch, ta
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         head: branchName,
-        base: baseBranch,
+        base: baseBranch
     });
     if (response.data.length > 0) {
         return;
@@ -124,7 +124,13 @@ function run() {
                 targetRepository,
                 targetBranch
             });
-            yield (0, create_pull_request_1.createPullRequest)({ token, branchName, baseBranch, targetRepository, targetBranch });
+            yield (0, create_pull_request_1.createPullRequest)({
+                token,
+                branchName,
+                baseBranch,
+                targetRepository,
+                targetBranch
+            });
         }
         catch (error) {
             if (error instanceof Error)
