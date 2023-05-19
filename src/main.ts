@@ -5,7 +5,9 @@ import {createPullRequest} from './create-pull-request'
 async function run(): Promise<void> {
   try {
     const token = core.getInput('repo_token')
-    const targetRepository: string = core.getInput('target_repository')
+    const targetRepository = `https://github.com/${core.getInput(
+      'target_repository'
+    )}.git`
     const targetBranch: string = core.getInput('target_branch') ?? 'main'
     const branchName: string =
       core.getInput('branch_name') ?? 'sync-template-repository'

@@ -103,7 +103,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = core.getInput('repo_token');
-            const targetRepository = core.getInput('target_repository');
+            const targetRepository = `https://github.com/${core.getInput('target_repository')}.git`;
             const targetBranch = (_a = core.getInput('target_branch')) !== null && _a !== void 0 ? _a : 'main';
             const branchName = (_b = core.getInput('branch_name')) !== null && _b !== void 0 ? _b : 'sync-template-repository';
             const baseBranch = (_c = core.getInput('base_branch')) !== null && _c !== void 0 ? _c : 'main';
