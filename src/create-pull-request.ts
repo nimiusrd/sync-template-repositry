@@ -2,12 +2,14 @@ import * as github from '@actions/github'
 
 interface CreatePullRequestOptions {
   token: string
+  targetRepository: string
   branchName: string
   baseBranch: string
 }
 
 export const createPullRequest = async ({
   token,
+  targetRepository,
   branchName,
   baseBranch
 }: CreatePullRequestOptions): Promise<void> => {
@@ -17,7 +19,7 @@ export const createPullRequest = async ({
     repo: github.context.repo.repo,
     head: branchName,
     base: baseBranch,
-    title: `Sync template`,
+    title: `Sync code with ${targetRepository}`,
     body: ``
   })
 }

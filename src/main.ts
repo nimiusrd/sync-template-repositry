@@ -19,7 +19,7 @@ async function run(): Promise<void> {
       targetRepository,
       targetBranch
     })
-    await createPullRequest({token, branchName, baseBranch})
+    await createPullRequest({token, branchName, baseBranch, targetRepository})
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
