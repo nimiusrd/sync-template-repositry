@@ -174,7 +174,7 @@ const syncTemplate = ({ patterns, baseBranch, branchName, targetRepository, targ
         '-m',
         `Sync ${branchName} with ${targetRepository}/${targetBranch}`
     ]);
-    yield (0, exec_1.exec)('git', ['push', '--set-upstream', 'origin', branchName]);
+    yield (0, exec_1.exec)('git', ['push', '-f', '--set-upstream', 'origin', branchName]);
     yield (0, exec_1.exec)('git', ['checkout', '.']);
 });
 exports.syncTemplate = syncTemplate;

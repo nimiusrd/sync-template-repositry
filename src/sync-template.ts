@@ -43,6 +43,6 @@ export const syncTemplate = async ({
     '-m',
     `Sync ${branchName} with ${targetRepository}/${targetBranch}`
   ])
-  await exec('git', ['push', '--set-upstream', 'origin', branchName])
+  await exec('git', ['push', '-f', '--set-upstream', 'origin', branchName])
   await exec('git', ['checkout', '.'])
 }
