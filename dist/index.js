@@ -146,6 +146,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.syncTemplate = void 0;
 const exec_1 = __nccwpck_require__(1514);
 const syncTemplate = ({ patterns, baseBranch, branchName, targetRepository, targetBranch }) => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, exec_1.exec)('git', ['fetch', '--all']);
     yield (0, exec_1.exec)('git', [
         'checkout',
         '-t',

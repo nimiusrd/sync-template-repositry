@@ -15,6 +15,7 @@ export const syncTemplate = async ({
   targetRepository,
   targetBranch
 }: SyncTemplateOptions): Promise<void> => {
+  await exec('git', ['fetch', '--all'])
   await exec('git', [
     'checkout',
     '-t',
