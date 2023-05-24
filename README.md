@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./
+      - uses: nimiusrd/sync-template-repository
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           target_repository: 'nimiusrd/sync-template-repository'
