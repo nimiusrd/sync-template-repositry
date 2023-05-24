@@ -5,7 +5,7 @@ See [action.yaml](action.yaml)
 
 Scheduled sync:
 ```yaml
-name: Sync template repositry
+name: Sync template repository
 
 on:
   schedule:
@@ -29,7 +29,7 @@ jobs:
 
 Manual sync:
 ```yaml
-name: Sync template repositry
+name: Sync template repository
 
 on:
   workflow_dispatch:
