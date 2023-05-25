@@ -12,13 +12,16 @@ async function run(): Promise<void> {
     const baseBranch: string = core.getInput('base_branch') || 'main'
     const patterns: string[] = core.getInput('patterns').split(',') || ['**/*']
 
-    await syncTemplate({
+    const result = await syncTemplate({
       patterns,
       baseBranch,
       branchName,
       targetRepository,
       targetBranch
     })
+    if (result.isNothingToCommit) {
+      return
+    }
     await createPullRequest({
       token,
       branchName,
