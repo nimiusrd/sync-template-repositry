@@ -108,15 +108,14 @@ const core = __importStar(__nccwpck_require__(2186));
 const sync_template_1 = __nccwpck_require__(7312);
 const create_pull_request_1 = __nccwpck_require__(3780);
 function run() {
-    var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = core.getInput('repo_token');
             const targetRepository = core.getInput('target_repository');
-            const targetBranch = (_a = core.getInput('target_branch')) !== null && _a !== void 0 ? _a : 'main';
-            const branchName = (_b = core.getInput('branch_name')) !== null && _b !== void 0 ? _b : 'sync-template-repository';
-            const baseBranch = (_c = core.getInput('base_branch')) !== null && _c !== void 0 ? _c : 'main';
-            const patterns = (_d = core.getInput('patterns').split(',')) !== null && _d !== void 0 ? _d : ['**/*'];
+            const targetBranch = core.getInput('target_branch') || 'main';
+            const branchName = core.getInput('branch_name') || 'sync-template-repository';
+            const baseBranch = core.getInput('base_branch') || 'main';
+            const patterns = core.getInput('patterns').split(',') || ['**/*'];
             yield (0, sync_template_1.syncTemplate)({
                 patterns,
                 baseBranch,
