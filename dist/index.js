@@ -116,13 +116,16 @@ function run() {
             const branchName = core.getInput('branch_name') || 'sync-template-repository';
             const baseBranch = core.getInput('base_branch') || 'main';
             const patterns = core.getInput('patterns').split(',') || ['**/*'];
-            yield (0, sync_template_1.syncTemplate)({
+            const result = yield (0, sync_template_1.syncTemplate)({
                 patterns,
                 baseBranch,
                 branchName,
                 targetRepository,
                 targetBranch
             });
+            if (result.isNothingToCommit) {
+                return;
+            }
             yield (0, create_pull_request_1.createPullRequest)({
                 token,
                 branchName,
@@ -188,13 +191,23 @@ const syncTemplate = ({ patterns, baseBranch, branchName, targetRepository, targ
     yield (0, exec_1.exec)('git', ['config', 'user.name', 'github-actions']);
     yield (0, exec_1.exec)('git', ['config', 'user.email', 'github-actions@github.com']);
     yield (0, exec_1.exec)('git', ['add', ...patterns.map(pattern => `:(glob)${pattern}`)]);
-    yield (0, exec_1.exec)('git', [
-        'commit',
-        '-m',
-        `Sync code with https://github.com/${targetRepository}/tree/${targetBranch}`
-    ]);
+    try {
+        yield (0, exec_1.exec)('git', [
+            'commit',
+            '-m',
+            `Sync code with https://github.com/${targetRepository}/tree/${targetBranch}`
+        ]);
+    }
+    catch (_a) {
+        return {
+            isNothingToCommit: true
+        };
+    }
     yield (0, exec_1.exec)('git', ['push', '-f', '--set-upstream', 'origin', branchName]);
     yield (0, exec_1.exec)('git', ['checkout', '.']);
+    return {
+        isNothingToCommit: false
+    };
 });
 exports.syncTemplate = syncTemplate;
 

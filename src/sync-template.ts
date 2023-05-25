@@ -7,6 +7,9 @@ interface SyncTemplateOptions {
   targetRepository: string
   targetBranch: string
 }
+interface SyncTemplateResult {
+  isNothingToCommit: boolean
+}
 
 export const syncTemplate = async ({
   patterns,
@@ -14,7 +17,7 @@ export const syncTemplate = async ({
   branchName,
   targetRepository,
   targetBranch
-}: SyncTemplateOptions): Promise<void> => {
+}: SyncTemplateOptions): Promise<SyncTemplateResult> => {
   await exec('git', ['fetch', '--all'])
   await exec('git', [
     'checkout',
@@ -43,11 +46,21 @@ export const syncTemplate = async ({
   await exec('git', ['config', 'user.name', 'github-actions'])
   await exec('git', ['config', 'user.email', 'github-actions@github.com'])
   await exec('git', ['add', ...patterns.map(pattern => `:(glob)${pattern}`)])
-  await exec('git', [
-    'commit',
-    '-m',
-    `Sync code with https://github.com/${targetRepository}/tree/${targetBranch}`
-  ])
+  try {
+    await exec('git', [
+      'commit',
+      '-m',
+      `Sync code with https://github.com/${targetRepository}/tree/${targetBranch}`
+    ])
+  } catch {
+    return {
+      isNothingToCommit: true
+    }
+  }
   await exec('git', ['push', '-f', '--set-upstream', 'origin', branchName])
   await exec('git', ['checkout', '.'])
+
+  return {
+    isNothingToCommit: false
+  }
 }
