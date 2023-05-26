@@ -1,7 +1,7 @@
 # sync-template-repository
 
 ## Usage
-See [action.yaml](action.yaml)
+See [action.yml](action.yml)
 
 Scheduled sync:
 ```yaml
