@@ -30,4 +30,3 @@ jobs:
           target_branch: 'test/target'
           base_branch: 'test/base'
           branch_name: 'sync-template-repository'
-          patterns: '*'
