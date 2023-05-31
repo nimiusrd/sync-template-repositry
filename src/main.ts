@@ -2,6 +2,13 @@ import * as core from '@actions/core'
 import {syncTemplate} from './sync-template'
 import {createPullRequest} from './create-pull-request'
 
+export const splitPattern = (pattern: string): string[] => {
+  return pattern
+    .split(/(?<!\s"\w*)\s(?!\w*"\s)/)
+    .map(item => item.replaceAll(/^"|"$/g, ''))
+    .filter(item => item !== '')
+}
+
 async function run(): Promise<void> {
   try {
     const token = core.getInput('repo_token')
@@ -10,10 +17,17 @@ async function run(): Promise<void> {
     const branchName: string =
       core.getInput('branch_name') || 'sync-template-repository'
     const baseBranch: string = core.getInput('base_branch') || 'main'
-    const patterns: string[] = core.getInput('patterns').split(',') || ['**/*']
+    const includePatterns: string[] = splitPattern(
+      core.getInput('include_patterns')
+    ).filter(pattern => pattern !== '') || ['**/*']
+    const excludePatterns: string[] =
+      splitPattern(core.getInput('exclude_patterns')).filter(
+        pattern => pattern !== ''
+      ) || []
 
     const result = await syncTemplate({
-      patterns,
+      includePatterns,
+      excludePatterns,
       baseBranch,
       branchName,
       targetRepository,

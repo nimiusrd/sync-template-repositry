@@ -1,7 +1,8 @@
 import {exec} from '@actions/exec'
 
 interface SyncTemplateOptions {
-  patterns: string[]
+  includePatterns: string[]
+  excludePatterns: string[]
   baseBranch: string
   branchName: string
   targetRepository: string
@@ -12,7 +13,8 @@ interface SyncTemplateResult {
 }
 
 export const syncTemplate = async ({
-  patterns,
+  includePatterns,
+  excludePatterns,
   baseBranch,
   branchName,
   targetRepository,
@@ -45,7 +47,12 @@ export const syncTemplate = async ({
   await exec('rm', ['update.patch'])
   await exec('git', ['config', 'user.name', 'github-actions'])
   await exec('git', ['config', 'user.email', 'github-actions@github.com'])
-  await exec('git', ['add', ...patterns.map(pattern => `:(glob)${pattern}`)])
+  await exec('git', [
+    'add',
+    ...includePatterns.map(pattern => `:(glob)${pattern}`),
+    ...excludePatterns.map(pattern => `:(glob,exclude)${pattern}`),
+    ':(glob,exclude).github/workflows'
+  ])
   try {
     await exec('git', [
       'commit',

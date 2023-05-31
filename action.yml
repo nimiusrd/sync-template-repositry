@@ -19,9 +19,12 @@ inputs:
     description: "Branch name to use for PR creation."
     default: "sync-template-repository"
     required: false
-  patterns:
-    description: "Patterns to sync."
+  include_patterns:
+    description: "Space separated include glob patterns to sync. For security reasons, `.github/workflows` cannot be included."
     default: "**/*"
+    required: false
+  exclude_patterns:
+    description: "Space separated exclude glob patterns to sync."
     required: false
 runs:
   using: 'node16'

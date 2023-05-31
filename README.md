@@ -24,7 +24,8 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           target_repository: 'nimiusrd/sync-template-repository'
-          patterns: '*'
+          include_patterns: 'src/**'
+          exclude_patterns: 'tests/** docs/**'
 ```
 
 Manual sync:
@@ -34,7 +35,9 @@ name: Sync template repository
 on:
   workflow_dispatch:
     inputs:
-      patterns:
+      include_patterns:
+        type: string
+      exclude_patterns:
         type: string
 
 permissions:
@@ -50,6 +53,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           target_repository: 'nimiusrd/sync-template-repository'
-          patterns: ${{ inputs.patterns }}
+          include_patterns: ${{ inputs.include_patterns }}
+          exclude_patterns: ${{ inputs.exclude_patterns }}
 ```
 
