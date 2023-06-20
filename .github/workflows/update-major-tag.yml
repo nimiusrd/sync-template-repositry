@@ -1,0 +1,22 @@
+on:
+  release:
+    types: [released]
+
+env:
+  TAG: ${{ github.event.release.tag_name }}
+
+permissions:
+  contents: write
+
+jobs:
+  update_major_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - shell: bash
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout $TAG
+          git tag -f ${TAG%%.*}
+          git push -f --tags
