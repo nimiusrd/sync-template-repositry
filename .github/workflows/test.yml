@@ -26,7 +26,7 @@ jobs:
       - uses: ./
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          target_repository: 'nimiusrd/sync-template-repository'
+          target_repository: 'besna-institute/sync-template-repository'
           target_branch: 'test/target'
           base_branch: 'test/base'
           branch_name: 'sync-template-repository'

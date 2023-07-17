@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: nimiusrd/sync-template-repository@v1
+      - uses: besna-institute/sync-template-repository@v1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          target_repository: 'nimiusrd/sync-template-repository'
+          target_repository: 'besna-institute/sync-template-repository'
           include_patterns: 'src/**'
           exclude_patterns: 'tests/** docs/**'
 ```
@@ -49,10 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: nimiusrd/sync-template-repository@v1
+      - uses: besna-institute/sync-template-repository@v1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          target_repository: 'nimiusrd/sync-template-repository'
+          target_repository: 'besna-institute/sync-template-repository'
           include_patterns: ${{ inputs.include_patterns }}
           exclude_patterns: ${{ inputs.exclude_patterns }}
 ```
