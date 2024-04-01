@@ -2,8 +2,6 @@
 
 ## Usage
 
-See [action.yml](action.yml)
-
 Scheduled sync:
 
 ```yaml
@@ -59,3 +57,14 @@ jobs:
           include_patterns: ${{ inputs.include_patterns }}
           exclude_patterns: ${{ inputs.exclude_patterns }}
 ```
+
+## Inputs
+
+| Name | Description | Default |
+| --- | --- | --- |
+| `repo_token` | GitHub token | |
+| `target_repository` | Target repository | |
+| `include_patterns` | Include patterns | `**` |
+| `exclude_patterns` | Exclude patterns | |
+
+See [action.yml](action.yml) for more details.
