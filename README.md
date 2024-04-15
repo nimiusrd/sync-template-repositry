@@ -102,6 +102,14 @@ git commit .
 git push origin release/vx.x.x
 ```
 
-6. Create a new release
+6. Create a pull request and make sure all CI passes.
 
-https://github.com/besna-institute/sync-template-repository/releases/new
+7. Create a new release.
+
+See https://github.com/besna-institute/sync-template-repository/releases/new
+Configure as follows and press "Generate release notes".
+![image](https://github.com/besna-institute/sync-template-repository/assets/13166203/0433cca6-c982-4874-9d5e-4eb4af9b48b8)
+
+After filling in the release notes, press "Publish release".
+
+8. Merge the pull request into the main branch.
