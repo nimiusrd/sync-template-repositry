@@ -68,3 +68,40 @@ jobs:
 | `exclude_patterns` | Exclude patterns | |
 
 See [action.yml](action.yml) for more details.
+
+## Publishing a New Release
+1. Ensure you are on the main branch and it's up to date with the remote repository.
+```bash
+git checkout main
+```
+
+2. Create a new branch for the release. Replace `x.x.x` with your version number.
+```bash
+git checkout -b release/vx.x.x
+```
+
+3. Replace the version in [package.json](./package.json).
+
+```diff
+{
+   ...
+-  "version": "w.w.w",
++  "version": "x.x.x",
+   ...
+```
+
+4. Run build script.
+
+```bash
+npm run all
+```
+
+5. Push the new branch to the remote repository.
+```bash
+git commit .
+git push origin release/vx.x.x
+```
+
+6. Create a new release
+
+https://github.com/besna-institute/sync-template-repository/releases/new
