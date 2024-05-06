@@ -30350,7 +30350,7 @@ const syncTemplate = async ({ includePatterns, excludePatterns, baseBranch, bran
     await (0, exec_1.exec)('git', [
         'checkout',
         '-t',
-        '-b',
+        '-B',
         baseBranch,
         `origin/${baseBranch}`
     ]);
