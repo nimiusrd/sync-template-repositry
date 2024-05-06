@@ -14,8 +14,8 @@ async function run(): Promise<void> {
     const token = core.getInput('repo_token')
     const targetRepository = core.getInput('target_repository')
     const targetBranch: string = core.getInput('target_branch') || 'main'
-    const branchName: string =
-      core.getInput('branch_name') || 'sync-template-repository'
+    const prBranchName: string =
+      core.getInput('pr_branch_name') || 'sync-template-repository'
     const baseBranch: string = core.getInput('base_branch') || 'main'
     const includePatterns: string[] = splitPattern(
       core.getInput('include_patterns')
@@ -29,7 +29,7 @@ async function run(): Promise<void> {
       includePatterns,
       excludePatterns,
       baseBranch,
-      branchName,
+      branchName: prBranchName,
       targetRepository,
       targetBranch
     })
@@ -38,7 +38,7 @@ async function run(): Promise<void> {
     }
     await createPullRequest({
       token,
-      branchName,
+      branchName: prBranchName,
       baseBranch,
       targetRepository,
       targetBranch

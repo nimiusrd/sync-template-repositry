@@ -30304,7 +30304,7 @@ async function run() {
         const token = core.getInput('repo_token');
         const targetRepository = core.getInput('target_repository');
         const targetBranch = core.getInput('target_branch') || 'main';
-        const branchName = core.getInput('branch_name') || 'sync-template-repository';
+        const prBranchName = core.getInput('pr_branch_name') || 'sync-template-repository';
         const baseBranch = core.getInput('base_branch') || 'main';
         const includePatterns = (0, exports.splitPattern)(core.getInput('include_patterns')).filter(pattern => pattern !== '') || ['**/*'];
         const excludePatterns = (0, exports.splitPattern)(core.getInput('exclude_patterns')).filter(pattern => pattern !== '') || [];
@@ -30312,7 +30312,7 @@ async function run() {
             includePatterns,
             excludePatterns,
             baseBranch,
-            branchName,
+            branchName: prBranchName,
             targetRepository,
             targetBranch
         });
@@ -30321,7 +30321,7 @@ async function run() {
         }
         await (0, create_pull_request_1.createPullRequest)({
             token,
-            branchName,
+            branchName: prBranchName,
             baseBranch,
             targetRepository,
             targetBranch
@@ -30354,7 +30354,7 @@ const syncTemplate = async ({ includePatterns, excludePatterns, baseBranch, bran
         baseBranch,
         `origin/${baseBranch}`
     ]);
-    await (0, exec_1.exec)('git', ['checkout', '-b', branchName]);
+    await (0, exec_1.exec)('git', ['checkout', '-B', branchName]);
     await (0, exec_1.exec)('git', [
         'remote',
         'add',
