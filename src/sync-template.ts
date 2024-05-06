@@ -24,7 +24,7 @@ export const syncTemplate = async ({
   await exec('git', [
     'checkout',
     '-t',
-    '-b',
+    '-B',
     baseBranch,
     `origin/${baseBranch}`
   ])
