@@ -58,6 +58,16 @@ jobs:
           exclude_patterns: ${{ inputs.exclude_patterns }}
 ```
 
+### Allow pull requests to be created
+
+> By default, when you create a new repository in your personal account, workflows are not allowed to create or approve pull requests. If you create a new repository in an organization, the setting is inherited from what is configured in the organization settings.
+> https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests
+
+You should allow to use the **Allow GitHub Actions to create and approve pull requests** setting:
+
+![image](https://github.com/besna-institute/sync-template-repository/assets/13166203/61a1653c-45b9-47ce-b3ab-fa9cfb2e17d7)
+
+
 ## Inputs
 
 | Name | Description | Default |
