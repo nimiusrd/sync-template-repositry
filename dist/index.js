@@ -30532,6 +30532,7 @@ async function run() {
             targetBranch
         });
         if (result.isNothingToCommit) {
+            core.info('Nothing to commit');
             return;
         }
         await (0, create_pull_request_1.createPullRequest)({
