@@ -43,6 +43,14 @@ export const syncTemplate = async ({
     branchName,
     `template/${targetBranch}`
   ])
+  // Skip if update.patch is empty.
+  try {
+    await exec('test', ['-s', 'update.patch'])
+  } catch {
+    return {
+      isNothingToCommit: true
+    }
+  }
   await exec('git', ['apply', 'update.patch'])
   await exec('rm', ['update.patch'])
   await exec('git', ['config', 'user.name', 'github-actions'])

@@ -34,6 +34,7 @@ async function run(): Promise<void> {
       targetBranch
     })
     if (result.isNothingToCommit) {
+      core.info('Nothing to commit')
       return
     }
     await createPullRequest({
