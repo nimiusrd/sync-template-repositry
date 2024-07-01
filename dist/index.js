@@ -30532,6 +30532,7 @@ async function run() {
             targetBranch
         });
         if (result.isNothingToCommit) {
+            core.info('Nothing to commit');
             return;
         }
         await (0, create_pull_request_1.createPullRequest)({
@@ -30584,6 +30585,15 @@ const syncTemplate = async ({ includePatterns, excludePatterns, baseBranch, bran
         branchName,
         `template/${targetBranch}`
     ]);
+    // Skip if update.patch is empty.
+    try {
+        await (0, exec_1.exec)('test', ['-s', 'update.patch']);
+    }
+    catch {
+        return {
+            isNothingToCommit: true
+        };
+    }
     await (0, exec_1.exec)('git', ['apply', 'update.patch']);
     await (0, exec_1.exec)('rm', ['update.patch']);
     await (0, exec_1.exec)('git', ['config', 'user.name', 'github-actions']);

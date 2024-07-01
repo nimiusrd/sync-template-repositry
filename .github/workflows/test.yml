@@ -19,7 +19,7 @@ jobs:
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  test1: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,3 +30,14 @@ jobs:
           target_branch: 'test/target'
           base_branch: 'test/base'
           branch_name: 'sync-template-repository'
+  test2: # Skip the action if the target branch is the same as the base branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          target_repository: 'besna-institute/sync-template-repository'
+          target_branch: 'test/target-no-changes'
+          base_branch: 'test/base'
+          branch_name: 'sync-template-repository-no-changes'

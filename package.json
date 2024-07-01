@@ -1,6 +1,6 @@
 {
   "name": "sync-template-repository",
-  "version": "1.1.11",
+  "version": "1.2.0",
   "private": true,
   "description": "SYnc template action",
   "main": "lib/main.js",
@@ -30,17 +30,17 @@
     "@actions/github": "^6.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.12.11",
+    "@types/node": "^20.14.9",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
+    "@typescript-eslint/parser": "^7.14.1",
     "@vercel/ncc": "^0.38.1",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-github": "^4.9.0",
+    "eslint-plugin-github": "^5.0.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^28.5.0",
     "js-yaml": "^4.1.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }
